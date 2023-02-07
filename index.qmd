@@ -1,12 +1,13 @@
 ---
 title: "Summary of Geochemistry Survey"
 author: "Yuri Gomes"
-format: html
-  code_folding: true
+format:
+  html: 
+    code-fold: true
 editor: visual
 ---
 
-## Quarto
+## Introdução
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
