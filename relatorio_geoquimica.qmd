@@ -2,7 +2,7 @@
 title: "Summary of Geochemistry Survey"
 author: "Yuri Gomes"
 format: html
-  code_fold: true
+  code_folding: true
 editor: visual
 ---
 
