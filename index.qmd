@@ -1,5 +1,6 @@
 ---
-title: "Summary of Geochemistry Survey"
+title: "Summary of Criticals Minerals Mapping Initiative"
+ubtitle: "Using data compiled by Geoscience Australia, the Geological Survey of Canada and the United States Geological Survey" 
 author: "Yuri Gomes"
 format:
   html: 
@@ -7,9 +8,17 @@ format:
 editor: visual
 ---
 
-## Introdução
+## Introduction
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+This report brings a summary of the South America's deposits of Copper (Cu), Iron (Fe) and Lithium (Li) contained in the Critical Minerals Mapping Initiative (CMMI) database, a collection of geochemical analysis of 7,000 samples from mineral deposits in 60 countries.
+
+Geoscience Australia, the Geological Survey of Canada, and the US Geological Survey compiled CMMI from publicly available sources, including mineral deposit, geochemistry, and the OSNACA databases.
+
+This report is for education and science communication only.
+
+![](images/image-1372420144.png)
+
+The full dataset can be download [here](https://services.ga.gov.au/gis/critical-minerals/wms?request=GetFeature&service=WFS&version=1.1.0&outputFormat=csv&typeName=cmmi:CriticalMineralDepositsGeochemistry).
 
 ## Running Code
 
