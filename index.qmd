@@ -1,5 +1,5 @@
 ---
-title: "Summary of Criticals Minerals Mapping Initiative"
+title: "Summary of Critical Copper and Lithium Deposits in Americas"
 subtitle: "Using data compiled by Geoscience Australia, the Geological Survey of Canada and the United States Geological Survey" 
 author: "Yuri Gomes"
 date: "`r Sys.Date()`"
@@ -15,7 +15,7 @@ editor: visual
 
 ## Introduction
 
-This report brings a summary of the South America's deposits of Copper (Cu), Iron (Fe) and Lithium (Li) contained in the Critical Minerals Mapping Initiative (CMMI) database, a collection of geochemical analysis of 7,000 samples from mineral deposits in 60 countries.
+This report brings a summary of the South America's deposits of Copper (Cu) and Gold (Au) contained in the Critical Minerals Mapping Initiative (CMMI) database, a collection of geochemical analysis of 7,000 samples from mineral deposits in 60 countries.
 
 This report is for education and science communication only. You are free to share, copy and redistribute the material in any medium or format. You may not use the material for commercial purposes.
 
@@ -25,16 +25,29 @@ The full dataset as well as its information, authors and metadata can be accesse
 
 Geoscience Australia, the Geological Survey of Canada, and the US Geological Survey compiled CMMI from publicly available sources, including mineral deposit, geochemistry, and the OSNACA databases.
 
-The dataset is divided into
-
 ```{r}
 library(tidyverse)
 library(ggplot2)
 library(leaflet)
 library(here)
+library(countrycode)
 
 cmmi_dataset <-
   readr::read_csv(
-    here::here("projeto_report_geoquimica/CriticalMineralDepositsGeochemistry.csv"))
+    here::here("projeto_report_geoquimica/CriticalMineralDepositsGeochemistry.csv")) |> 
+janitor::clean_names()
 
 ```
+
+The original dataset is divided into `r ncol(cmmi_dataset)` columns showing Sample ID, Analytes, Limit of Detections, Countries, Coordinates, among other information, and `r nrow(cmmi_dataset)` rows. 
+
+## Data Tidying and Data Filtering
+
+For this analysis, we have two target elements: Copper (Cu) and Gold (Au). So we need to filter the dataset prior to leave only the necessary information. 
+
+``` {r}
+cmmi_south_america <- cmmi_dataset |>
+  dplyr::filter(cmmi_dataset$country %in% c("BRA", "ARG", "CHL", "BOL", "PER", "URY", "ECU", "VEN", "COL"))
+```
+
+
