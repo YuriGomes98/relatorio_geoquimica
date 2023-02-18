@@ -6,8 +6,8 @@ date: "`r Sys.Date()`"
 format:
   html:
     theme:
-      light: cosmo
-      dark: cosmo
+      light: flatly
+      dark: darkly
     code-tools: true
     self-contained: true
 editor: visual
@@ -27,7 +27,7 @@ Geoscience Australia, the Geological Survey of Canada, and the US Geological Sur
 
 The dataset is divided into
 
-``` {r}
+```{r}
 library(tidyverse)
 library(ggplot2)
 library(leaflet)
@@ -38,6 +38,3 @@ cmmi_dataset <-
     here::here("projeto_report_geoquimica/CriticalMineralDepositsGeochemistry.csv"))
 
 ```
-
-
-
