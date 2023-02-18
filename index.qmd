@@ -12,6 +12,8 @@ format:
       dark: darkly
     code-tools: true
     self-contained: true
+    code-fold: true
+    code-summary: "Show the code"
 editor: visual
 ---
 
@@ -22,6 +24,18 @@ This report brings a summary of the South America & North America deposits of Co
 This report is for education and science communication only. You are free to share, copy and redistribute the material in any medium or format. You may not use the material for commercial purposes.
 
 The full dataset as well as its information, authors and metadata can be accessed [here](https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/metadata/145496).
+
+```{r images, fig.align= "left", fig.alt = "Chuquicamata Copper Mine, Chile, 2019"}
+
+knitr::include_graphics("images/chuquicamata_cu_mine.jpg")
+
+```
+
+::: {style="text-align: right"}
+<small>Fonte: <a href="https://unsplash.com/pt-br/fotografias/sRuz_SXLjCI">Unplash.com</a></small>
+:::
+
+<div style="text-align: justify">
 
 ## Data Import
 
@@ -41,18 +55,20 @@ janitor::clean_names()
 
 ```
 
-The original dataset is divided into `r ncol(cmmi_dataset)` columns showing Sample ID, Analytes, Limit of Detections, Countries, Coordinates, among other information, and `r nrow(cmmi_dataset)` rows. 
+The original dataset is divided into `r ncol(cmmi_dataset)` columns showing Sample ID, Analytes, Limit of Detections, Countries, Coordinates, among other information, and `r nrow(cmmi_dataset)` rows.
 
 ## Data Tidying and Data Filtering
 
-For this analysis, we have two target elements: Copper (Cu), Gold (Au), Molybdenium (Mo), and Silver (Ag). So we need to filter the dataset prior to leave only the necessary information. 
+For this analysis, we have four target elements: Copper (Cu), Gold (Au), Molybdenium (Mo), and Silver (Ag), exploring their distribution along the countries' deposits.
 
-``` {r}
+So we need to filter the dataset prior to leave only the necessary information.
+
+```{r}
 cmmi_americas <- cmmi_dataset |>
   dplyr::filter(country %in% c("MEX", "USA", "CAN", "BRA", "ARG", "CHL", "BOL", "PER", "URY", "ECU", "VEN", "COL")) |>
   dplyr::select(sample_name, deposit_name, deposit_environment, country, 
-                state, cu_ppm, au_ppb, mo_ppm, ag_ppm, 
-                deposit_longitude_wgs84, deposit_latitude_wgs84)
+              state, cu_ppm, au_ppb, mo_ppm, ag_ppm, 
+              deposit_longitude_wgs84, deposit_latitude_wgs84) |>
+  mutate(country = countrycode(country, "iso3c", "country.name"))
+
 ```
-
-
