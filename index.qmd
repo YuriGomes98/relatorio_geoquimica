@@ -31,7 +31,6 @@ knitr::include_graphics("images/chuquicamata_cu_mine.jpg")
 
 ```
 
-
 ::: {style="text-align: right"}
 <small>Fonte: <a href="https://unsplash.com/pt-br/fotografias/sRuz_SXLjCI">Unplash.com</a></small>
 :::
@@ -49,7 +48,6 @@ library(leaflet)
 library(here)
 library(countrycode)
 ```
-
 
 ```{r echo = FALSE}
 cmmi_dataset <-
@@ -85,7 +83,7 @@ cmmi_americas <- cmmi_dataset |>
 
 You may locate all the `r length(unique(cmmi_americas$deposit_name))` deposits in the map below:
 
-``` {r echo = FALSE}
+```{r echo = FALSE}
 
 ### Defining coordinates 
 leaflet::leaflet(data = cmmi_americas) |>
@@ -104,4 +102,4 @@ leaflet::leaflet(data = cmmi_americas) |>
                                               cmmi_americas$country)) |>
   leaflet::addProviderTiles(provider = "Esri.WorldImagery")
 
-``` 
+```
