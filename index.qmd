@@ -1,5 +1,5 @@
 ---
-title: "Summary of Critical Copper and Lithium Deposits in Americas"
+title: "Summary of Critical Copper, Gold, Molybdenum and Silver Deposits in Americas"
 subtitle: "Using data compiled by Geoscience Australia, the Geological Survey of Canada and the United States Geological Survey" 
 author: "Yuri Gomes"
 date: "`r Sys.Date()`"
@@ -17,7 +17,7 @@ format:
 editor: visual
 ---
 
-## Introduction
+## On Dataset
 
 This report brings a summary of the South America & North America deposits of Copper (Cu), Gold (Au), Molybdenium (Mo), and Silver (Ag) contained in the Critical Minerals Mapping Initiative (CMMI) database CMMI is a collection of geochemical analysis of 7,000 samples from mineral deposits in 60 countries.
 
@@ -31,6 +31,7 @@ knitr::include_graphics("images/chuquicamata_cu_mine.jpg")
 
 ```
 
+
 ::: {style="text-align: right"}
 <small>Fonte: <a href="https://unsplash.com/pt-br/fotografias/sRuz_SXLjCI">Unplash.com</a></small>
 :::
@@ -41,13 +42,16 @@ knitr::include_graphics("images/chuquicamata_cu_mine.jpg")
 
 Geoscience Australia, the Geological Survey of Canada, and the US Geological Survey compiled CMMI from publicly available sources, including mineral deposit, geochemistry, and the OSNACA databases.
 
-```{r}
+```{r echo = FALSE}
 library(tidyverse)
 library(ggplot2)
 library(leaflet)
 library(here)
 library(countrycode)
+```
 
+
+```{r echo = FALSE}
 cmmi_dataset <-
   readr::read_csv(
     here::here("projeto_report_geoquimica/CriticalMineralDepositsGeochemistry.csv")) |> 
@@ -64,11 +68,40 @@ For this analysis, we have four target elements: Copper (Cu), Gold (Au), Molybde
 So we need to filter the dataset prior to leave only the necessary information.
 
 ```{r}
+copper <- tibble(cmmi_dataset$primary_commodities)
+
 cmmi_americas <- cmmi_dataset |>
   dplyr::filter(country %in% c("MEX", "USA", "CAN", "BRA", "ARG", "CHL", "BOL", "PER", "URY", "ECU", "VEN", "COL")) |>
-  dplyr::select(sample_name, deposit_name, deposit_environment, country, 
-              state, cu_ppm, au_ppb, mo_ppm, ag_ppm, 
-              deposit_longitude_wgs84, deposit_latitude_wgs84) |>
+  dplyr::select(sample_name, primary_commodities, deposit_name, deposit_environment, country, 
+                state, cu_ppm, cu_detection_limit, cu_method, 
+                deposit_longitude_wgs84,deposit_latitude_wgs84)|>
+  drop_na(cu_ppm)|>
+  dplyr::filter(cu_ppm >= 50) |>
   mutate(country = countrycode(country, "iso3c", "country.name"))
 
 ```
+
+## Deposits' Location
+
+You may locate all the `r length(unique(cmmi_americas$deposit_name))` deposits in the map below:
+
+``` {r echo = FALSE}
+
+### Defining coordinates 
+leaflet::leaflet(data = cmmi_americas) |>
+  leaflet::addCircleMarkers(lng = ~deposit_longitude_wgs84, 
+                             lat = ~deposit_latitude_wgs84,
+                              radius = 5,
+                                popup = paste("Name: ", cmmi_americas$deposit_name, "<br>",
+                                              "Copper (ppm): ", cmmi_americas$cu_ppm, "<br>",
+                                              "Latitude: ", 
+                                              cmmi_americas$deposit_latitude_wgs84, "<br>",
+                                              "Longitude: ", 
+                                              cmmi_americas$deposit_longitude_wgs84, "<br>",
+                                              "Environment: ", 
+                                              cmmi_americas$deposit_environment, "<br>",
+                                              "Country: ", 
+                                              cmmi_americas$country)) |>
+  leaflet::addProviderTiles(provider = "Esri.WorldImagery")
+
+``` 
