@@ -1,5 +1,5 @@
 ---
-title: "Summary ofCopper Deposits in Americas"
+title: "Summary of the Copper Deposits of Americas"
 subtitle: "Using data compiled by Geoscience Australia, the Geological Survey of Canada and the United States Geological Survey" 
 author: "Yuri Gomes"
 date: "`r Sys.Date()`"
@@ -41,15 +41,17 @@ knitr::include_graphics("images/chuquicamata_cu_mine.jpg")
 
 Geoscience Australia, the Geological Survey of Canada, and the US Geological Survey compiled CMMI from publicly available sources, including mineral deposit, geochemistry, and the OSNACA databases.
 
-```{r echo = FALSE}
+```{r, include = FALSE, echo = FALSE}
 library(tidyverse)
 library(ggplot2)
 library(leaflet)
 library(here)
 library(countrycode)
+library(reshape2)
+library(scales)
 ```
 
-```{r echo = FALSE}
+```{r, include= FALSE, echo= FALSE}
 cmmi_dataset <-
   readr::read_csv(
     here::here("projeto_report_geoquimica/CriticalMineralDepositsGeochemistry.csv")) |> 
@@ -69,7 +71,7 @@ So we need to filter the dataset prior to leave only the necessary information.
 copper <- tibble(cmmi_dataset$primary_commodities)
 
 cmmi_americas <- cmmi_dataset |>
-  dplyr::filter(country %in% c("MEX", "USA", "CAN", "BRA", "ARG", "CHL", "BOL", "PER", "URY", "ECU", "VEN", "COL")) |>
+  dplyr::filter(country %in% c("MEX", "USA", "CAN", "BRA", "ARG", "CHL", "PER", "URY", "ECU", "COL")) |>
   dplyr::select(sample_name, primary_commodities, deposit_name, deposit_environment, country, 
                 state, cu_ppm, cu_detection_limit, cu_method, 
                 deposit_longitude_wgs84,deposit_latitude_wgs84)|>
@@ -102,4 +104,25 @@ leaflet::leaflet(data = cmmi_americas) |>
                                               cmmi_americas$country)) |>
   leaflet::addProviderTiles(provider = "Esri.WorldImagery")
 
+```
+
+## Copper grade distribution per country
+
+Grade is one of the most important parameters to determine the value and the importance of a deposit. In the boxplot below, you can see the copper grade distribution per country. 
+
+```{r echo=FALSE}
+
+boxplot_df <- cmmi_americas |>
+  select(country, cu_ppm)
+
+melted_boxplot_df <- melt(boxplot_df) 
+
+ggplot(melted_boxplot_df, aes(x = country, y = value)) + 
+  geom_boxplot(fill = "lightblue", color = "black", outlier.shape = NA) +
+  theme(axis.text.x=element_text(angle=0,hjust=1, face="bold", color = "black"), 
+        axis.text.y=element_text(face="bold", color = "black"))+ 
+  theme_classic() +
+  labs(title="Copper Grade Distribution per Country", x = "", y = "Copper (in ppm)")+
+  stat_boxplot(geom='errorbar') + 
+  scale_y_continuous(trans='log10', labels = comma)
 ```
