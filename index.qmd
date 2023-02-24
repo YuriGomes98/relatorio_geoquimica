@@ -1,5 +1,5 @@
 ---
-title: "Summary of Critical Copper, Gold, Molybdenum and Silver Deposits in Americas"
+title: "Summary ofCopper Deposits in Americas"
 subtitle: "Using data compiled by Geoscience Australia, the Geological Survey of Canada and the United States Geological Survey" 
 author: "Yuri Gomes"
 date: "`r Sys.Date()`"
@@ -19,7 +19,7 @@ editor: visual
 
 ## On Dataset
 
-This report brings a summary of the South America & North America deposits of Copper (Cu), Gold (Au), Molybdenium (Mo), and Silver (Ag) contained in the Critical Minerals Mapping Initiative (CMMI) database CMMI is a collection of geochemical analysis of 7,000 samples from mineral deposits in 60 countries.
+This report brings a summary of the Americas's Copper deposits contained in the Critical Minerals Mapping Initiative (CMMI) database CMMI is a collection of geochemical analysis of 7,000 samples from mineral deposits in 60 countries.
 
 This report is for education and science communication only. You are free to share, copy and redistribute the material in any medium or format. You may not use the material for commercial purposes.
 
