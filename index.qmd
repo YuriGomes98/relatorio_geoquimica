@@ -17,7 +17,7 @@ format:
 editor: visual
 ---
 
-## On Dataset
+## Introduction
 
 This report brings a summary of the Americas's Copper deposits contained in the Critical Minerals Mapping Initiative (CMMI) database CMMI is a collection of geochemical analysis of 7,000 samples from mineral deposits in 60 countries.
 
@@ -63,7 +63,7 @@ The original dataset is divided into `r ncol(cmmi_dataset)` columns showing Samp
 
 ## Data Tidying and Data Filtering
 
-For this analysis, we have four target elements: Copper (Cu), Gold (Au), Molybdenium (Mo), and Silver (Ag), exploring their distribution along the countries' deposits.
+For this analysis, we have one target element: Copper (Cu), and we'll explore its distribution along the countries' deposits.
 
 So we need to filter the dataset prior to leave only the necessary information.
 
@@ -108,7 +108,9 @@ leaflet::leaflet(data = cmmi_americas) |>
 
 ## Copper grade distribution per country
 
-Grade is one of the most important parameters to determine the value and the importance of a deposit. In the boxplot below, you can see the copper grade distribution per country. 
+Grade is one of the most important parameters to determine the value and the importance of a deposit.
+
+In the boxplot below, you can see the copper grade distribution per country.
 
 ```{r echo=FALSE}
 
@@ -117,12 +119,21 @@ boxplot_df <- cmmi_americas |>
 
 melted_boxplot_df <- melt(boxplot_df) 
 
-ggplot(melted_boxplot_df, aes(x = country, y = value)) + 
-  geom_boxplot(fill = "lightblue", color = "black", outlier.shape = NA) +
+ggplot(melted_boxplot_df, aes(x = country, y = value, fill = country)) + 
+  geom_boxplot(color = "black", outlier.shape = NA) +
+  scale_fill_brewer()+
   theme(axis.text.x=element_text(angle=0,hjust=1, face="bold", color = "black"), 
         axis.text.y=element_text(face="bold", color = "black"))+ 
-  theme_classic() +
+  theme_minimal() +
   labs(title="Copper Grade Distribution per Country", x = "", y = "Copper (in ppm)")+
   stat_boxplot(geom='errorbar') + 
   scale_y_continuous(trans='log10', labels = comma)
 ```
+
+## References
+
+Champion, D., Raymond, O., Huston, D., VanDerWielen, S., Sexton, M., Bastrakov, E., Schroder, I., Butcher, G., Hawkins, S., Lane, J., McAlpine, S., Czarnota, K., Britt, A., Granitto, M., Hofstra, A., Kreiner, D., Emsbo, P., Kelley, K., Wang, B., Case, G., Graham, G., Lauzière, K., Lawley, C., Gadd, M., Pilote, J-L., Létourneau, F., Lisitsin, V., Haji Egeh, A. 2021. Critical Minerals in Ores - geochemistry database. Geoscience Australia, Canberra. http://pid.geoscience.gov.au/dataset/ga/145496
+
+## Credits
+
+Created by *Yuri Gomes* for the Reproducible Reports in R Course, from the Summer Courses of the Institute of Mathematics and Statistics of the University of São Paulo (USP). 
